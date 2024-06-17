@@ -29,7 +29,7 @@ data = pd.read_csv('dataset/full_data.csv')  # Cargar datos desde un archivo CSV
 logger.info('Loading model')
 # Definición de un pipeline de procesamiento y modelo
 model = Pipeline([
-    ('imputer', SimpleImputer(strategy='mean', missing_values=np.nan)),  # Imputación de valores faltantes con la media
+    ('imputer', SimpleImputer( missing_values=np.nan)),  # Imputación de valores faltantes con la media
     ('core_model', GradientBoostingRegressor())  # Modelo de regresión de Gradient Boosting
 ])
 
