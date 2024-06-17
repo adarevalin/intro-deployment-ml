@@ -1,0 +1,6 @@
+pandas==1.5.2
+scikit-learn == 1.2.0
+matplotlib == 3.6.2
+seaborn == 0.12.2
+dvc == 3.42.0
+dvc[gs] == 3.0.1
