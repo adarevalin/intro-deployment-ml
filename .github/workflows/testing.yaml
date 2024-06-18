@@ -1,26 +1,38 @@
 name: Testing API
 on: [push, pull_request]
 jobs:
-    testing-api:
-      runs-on: ubuntu-latest
-      env: 
-        SERVICE_ACCOUNT_KEY: ${{secrets.SERVICE_ACCOUNT_KEY}}
-      steps:
-        - name: Checkout the repo
-          uses: actions/checkout@v2
-        - name: Creating and activating virtualenv
-          run: |
-            pip3 install virtualenv
-            virtualenv venv
-            source venv/bin/activate
-        - name: Installing dependencies
-          run: |
-            pip install dvc[gs]
-            pip install -r requeriments_test.txt
-        - name: Test API
-          run: |
-            export GOOGLE_APPLICATION_CREDEDNTIALS=$(python utilities/setter.py)
-            dvc pull model/model.pkl -r model-track
-            pytest test.py
+  testing-api:
+    runs-on: ubuntu-latest
+    env: 
+      SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+        
+      - name: Creating and activating virtualenv
+        run: |
+          pip3 install virtualenv
+          virtualenv venv
+          source venv/bin/activate
 
+      - name: Installing dependencies
+        run: |
+          source venv/bin/activate
+          pip install dvc[gs]
+          pip install -r requeriments_test.txt
 
+      - name: Set up Google Cloud credentials
+        run: |
+          source venv/bin/activate
+          python utilities/setter.py
+          export GOOGLE_APPLICATION_CREDENTIALS=$(python -c "import os; print(os.path.realpath('path.json'))")
+
+      - name: Pull DVC data
+        run: |
+          source venv/bin/activate
+          dvc pull model/model.pkl -r model-track
+
+      - name: Test API
+        run: |
+          source venv/bin/activate
+          pytest test.py
