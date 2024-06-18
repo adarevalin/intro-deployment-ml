@@ -9,18 +9,18 @@ jobs:
       - name: Checkout the repo
         uses: actions/checkout@v2
       - name: Creating and activating virtualenv
-      run: |
-        pip3 install virtualenv
-        virtualenv venv
-        source venv/scritps/activate
+        run: |
+          pip3 install virtualenv
+          virtualenv venv
+          source venv/scritps/activate
       - name: Installing dependencies
-      run: |
-        pip install dvc[gs]
-        pip install -r requeriments_test.txt
+        run: |
+          pip install dvc[gs]
+          pip install -r requeriments_test.txt
       - name: Test API
-      run: |
-        export GOOGLE_APPLICATION_CREDEDNTIALS=$(python utilities/setter.py)
-        dvc pull model/model.pkl -r model-tracker
-        pytest test.py
+        run: |
+          export GOOGLE_APPLICATION_CREDEDNTIALS=$(python utilities/setter.py)
+          dvc pull model/model.pkl -r model-tracker
+          pytest test.py
 
 
