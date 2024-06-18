@@ -17,22 +17,11 @@ jobs:
 
       - name: Installing dependencies
         run: |
-          source venv/bin/activate
           pip install dvc[gs]
           pip install -r requeriments_test.txt
 
-      - name: Set up Google Cloud credentials
-        run: |
-          source venv/bin/activate
-          python utilities/setter.py
-          export GOOGLE_APPLICATION_CREDENTIALS=$(python -c "import os; print(os.path.realpath('path.json'))")
-
-      - name: Pull DVC data
-        run: |
-          source venv/bin/activate
-          dvc pull model/model.pkl -r model-track
-
       - name: Test API
         run: |
-          source venv/bin/activate
+          export GOOGLE_APPLICATION_CREDENTIALS=$(python utilities/setter.py)
+          dvc pull model/model.pkl -r model-track
           pytest test.py
