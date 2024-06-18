@@ -6,13 +6,13 @@ jobs:
     env: 
       SERVICE_ACCOUNT_KEY: ${{secrets.SERVICE_ACCOUNT_KEY}}
     steps:
-      - name: Checkout code
+      - name: Checkout the repo
         uses: actions/checkout@v2
       - name: Creating and activating virtualenv
       run: |
         pip3 install virtualenv
         virtualenv venv
-        source venv/bin/activate
+        source venv/scritps/activate
       - name: Installing dependencies
       run: |
         pip install dvc[gs]
