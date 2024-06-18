@@ -12,7 +12,7 @@ jobs:
       - name: Setting up Python environment
         run: |
           python3 -m venv venv
-          source venv/bin/activate
+          source venv/Scripts/activate
           pip install --upgrade pip
 
       - name: Installing dependencies
