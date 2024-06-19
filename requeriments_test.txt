@@ -1,5 +1,7 @@
 -r api/requirements.txt
 
-pytest == 6.2.5
+pytest==6.2.5
 google-auth
 google-cloud-storage
+numpy==1.21.0  # Versión compatible con scikit-learn
+scikit-learn==0.24.2  # Especificar versión compatible
