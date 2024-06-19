@@ -19,14 +19,16 @@ jobs:
         run: |
           source venv/bin/activate
           pip install dvc[gs]
-          pip install -r requeriments_test.txt
+          pip install -r requirements_test.txt
 
       - name: Set up Google Cloud credentials
         run: |
           source venv/bin/activate
-          echo "${{ secrets.SERVICE_ACCOUNT_KEY }}" | base64 --decode > path.json
+          python setter.py
           export GOOGLE_APPLICATION_CREDENTIALS=$(python -c "import os; print(os.path.realpath('path.json'))")
-          
+        env:
+          SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+
       - name: Pull DVC data
         run: |
           source venv/bin/activate
