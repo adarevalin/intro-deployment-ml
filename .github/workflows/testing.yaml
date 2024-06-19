@@ -19,7 +19,7 @@ jobs:
         run: |
           source venv/bin/activate
           pip install dvc[gs]
-          pip install -r requirements_test.txt
+          pip install -r requeriments_test.txt
 
       - name: Set up Google Cloud credentials
         run: |
