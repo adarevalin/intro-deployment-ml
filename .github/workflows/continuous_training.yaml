@@ -1,5 +1,8 @@
 name: Continuous Training
 on:
+   push:
+     branches:
+      - workflow_continuous_training
    schedule:
     - cron: '0 */6 * * *'
   workflow_dispatch:
@@ -47,7 +50,7 @@ jobs:
          cat report.txt >> report.md
          cml-publish prediction_behavior.png -md >> report.md
          cml-send-comment report.md
-         
+
 
 
 
