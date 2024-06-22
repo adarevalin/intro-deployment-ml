@@ -25,7 +25,7 @@ jobs:
           pip3 install virtualenv
           virtualenv venv
           source venv/bin/activate
-          pip3 install -r requirements_test.txt
+          pip3 install -r requeriments_test.txt
           export GOOGLE_APPLICATION_CREDENTIALS=$(python utilities/setter.py)
           dvc pull model/model.pkl.dvc -r model-track
           dvc unprotect model/model.pkl
