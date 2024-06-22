@@ -1,9 +1,9 @@
 name: Continuous Training
 on:
-   push:
+  push:
      branches:
       - workflow_continuous_training
-   schedule:
+  schedule:
     - cron: '0 */6 * * *'
   workflow_dispatch:
     inputs:
@@ -15,41 +15,41 @@ jobs:
   continuous-training:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v2
-    - name: train model
-      env:
-        SERVICE_ACCOUNT_KEY: ${{secrets.SERVICE_ACCOUNT_KEY}}
-      run: |
-        pip3 install virtualenv
-        virtualenv venv
-        source venv/bin/activate
-        pip3 install -r requirements.txt
-        export GOOGLE_APPLICATION_CREDENTIALS=$(python utilities/setter.py)
-        dvc pull model/model.pkl.dvc -r model-track
-        dvc unprotect model/model.pkl
-        dvc repro -f
-        echo "Training Completed"
-        dvc add model/model.pkl.dvc -r model-track  --to-remote
-        dvc push model/model.pkl.dvc -r model-track
-    - name: Commit .dvc file change
-      run: |
-       git config --local  user.email "kyfunky1386@gmail.com"
-       git config --local  user.name "github-actions-bot"
-       git add model/model.pkl.dvc
-       git commit -m "CT: Update model.pkl.dvc"
-    - uses: ad-m/github-push-action@master
-      with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{github.ref}}
-    - uses: iterative/setup-cmlQv1
-    - name: push metrics
-      env:
-        REPOR_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      run: |
-         cat report.txt >> report.md
-         cml-publish prediction_behavior.png -md >> report.md
-         cml-send-comment report.md
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: train model
+        env:
+          SERVICE_ACCOUNT_KEY: ${{secrets.SERVICE_ACCOUNT_KEY}}
+        run: |
+          pip3 install virtualenv
+          virtualenv venv
+          source venv/bin/activate
+          pip3 install -r requirements.txt
+          export GOOGLE_APPLICATION_CREDENTIALS=$(python utilities/setter.py)
+          dvc pull model/model.pkl.dvc -r model-track
+          dvc unprotect model/model.pkl
+          dvc repro -f
+          echo "Training Completed"
+          dvc add model/model.pkl.dvc -r model-track  --to-remote
+          dvc push model/model.pkl.dvc -r model-track
+      - name: Commit .dvc file change
+        run: |
+          git config --local  user.email "kyfunky1386@gmail.com"
+          git config --local  user.name "github-actions-bot"
+          git add model/model.pkl.dvc
+          git commit -m "CT: Update model.pkl.dvc"
+      - uses: ad-m/github-push-action@master
+        with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            branch: ${{github.ref}}
+      - uses: iterative/setup-cmlQv1
+      - name: push metrics
+        env:
+          REPOR_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          cat report.txt >> report.md
+          cml-publish prediction_behavior.png -md >> report.md
+          cml-send-comment report.md
 
 
 
