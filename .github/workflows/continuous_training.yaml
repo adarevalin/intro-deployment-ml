@@ -38,7 +38,7 @@ jobs:
         run: |
           git config --local user.email "kyfunky1386@gmail.com"
           git config --local user.name "github-actions-bot"
-          git add model/model.pkl
+          git add model/model.pkl.dvc
           git commit -m "CT: Update model.pkl.dvc"
 
       - uses: ad-m/github-push-action@master
