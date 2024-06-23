@@ -1,7 +1,6 @@
 venv/
 -ipynb_checkpoints
 *.json
-
 *.pkl
 report.txt
 *.png
